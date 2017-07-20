@@ -12,7 +12,7 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 // 封装并实现新功能
-// #include "epoll.h"
+#include "epoll.h"
 // #include "threadpool.h"
 // 本地功能
 // #include "timer.h"
@@ -42,12 +42,28 @@ int main(int argc, char *argv[]){
 		return 0;
 	}
     */
+    // 初始化套接字开始监听
 	int listen_fd = socket_bind_listen(conf.port);
     if(listen_fd != -1){
         printf("Server is listening !\n\n");
     }
+    // 设置为socket非阻塞
 	int rc = make_socket_non_blocking(listen_fd);
     if(rc != -1){
         printf("Make socket non_blocking success !\n\n");
     }
+    // 创建epoll并注册监听描述符
+    int epoll_fd = tk_epoll_create(0);
+    struct epoll_event event;
+    event.events = EPOLLIN | EPOLLET;
+    event.data.ptr = (void *)NULL;
+    tk_epoll_add(epoll_fd, listen_fd, &event);
+
+    printf("Epoll init ok ! \n\n");
+
+    /*
+    while(1){
+
+    }
+    */
 }
