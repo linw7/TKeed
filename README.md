@@ -9,10 +9,10 @@
 | Scrum | Feature | Done | Srpint Review |
 |:-----:|:-------:|:----:|:-------------:|
 | Sprint 1|配置读取；监听请求；epoll封装| 编译通过；单元测试通过|调试比较困难|
-| Sprint 2 |改变封装粒度；定义常量值|对Sprint 1封装；规定常量| 代码规范有待加强|
-| Sprint 3 |定义tk_time_t结构体；实现时间部分操作|不能编译，需要用优先队列组织 |定义结构体需考虑扩展性|
-| Sprint 4 |定义tk_pq_t结构体，完成优先队列 | 未定义类型指针用(void *)代替可通过编译| 需要加入debug模块辅助调试|
-| Sprint 5 |完成debug模块；封装IO操作 | debug接口可用，RIO包编译通过|debug接口通用性较差|
+| Sprint 2|改变封装粒度；定义常量值|对Sprint 1封装；规定常量| 代码规范有待加强|
+| Sprint 3|定义tk_time_t结构体；实现时间部分操作|不能编译，需要用优先队列组织 |定义结构体需考虑扩展性|
+| Sprint 4|定义tk_pq_t结构体，完成优先队列 | 未定义类型指针用(void *)代替可通过编译| 需要加入debug模块辅助调试|
+| Sprint 5|完成debug模块；封装IO操作 | debug接口可用，RIO包编译通过|debug接口通用性较差|
 
 ---
 
@@ -30,7 +30,6 @@
 |list模块（工具）| list.h & list.c | -- | -- | -- |
 |pq模块（工具）| priority_queue.h & priority_queue.c | -- | -- | -- |
 |rio模块（工具）|rio.h & rio.c | -- | -- | -- |
-
 
 ---
 
@@ -50,7 +49,7 @@
 
 - 宏观结构：[callgraph](http://www.tinylab.org/callgraph-draw-the-calltree-of-c-functions/)
 
-- 集成环境：CLion
+- 集成环境：Clion
 
 ---
 
