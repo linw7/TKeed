@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6"/>
+	<Project>
+		<Option title="src"/>
+		<Option makefile_is_custom="1"/>
+		<Option compiler="gcc"/>
+		<Option virtualFolders="CMake Files\;"/>
+		<Build>
+			<Target title="all">
+				<Option working_dir="/home/inx/Desktop/TKeed/src/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -f &quot;/home/inx/Desktop/TKeed/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="/usr/bin/make -f &quot;/home/inx/Desktop/TKeed/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -f &quot;/home/inx/Desktop/TKeed/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -f &quot;/home/inx/Desktop/TKeed/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="rebuild_cache">
+				<Option working_dir="/home/inx/Desktop/TKeed/src/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -f &quot;/home/inx/Desktop/TKeed/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="/usr/bin/make -f &quot;/home/inx/Desktop/TKeed/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -f &quot;/home/inx/Desktop/TKeed/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -f &quot;/home/inx/Desktop/TKeed/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="edit_cache">
+				<Option working_dir="/home/inx/Desktop/TKeed/src/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -f &quot;/home/inx/Desktop/TKeed/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="/usr/bin/make -f &quot;/home/inx/Desktop/TKeed/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -f &quot;/home/inx/Desktop/TKeed/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -f &quot;/home/inx/Desktop/TKeed/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="src">
+				<Option output="/home/inx/Desktop/TKeed/src/cmake-build-debug/src" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/inx/Desktop/TKeed/src/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/usr/include/c++/5"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/5"/>
+					<Add directory="/usr/include/c++/5/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/5/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/5/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -f &quot;/home/inx/Desktop/TKeed/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 src"/>
+					<CompileFile command="/usr/bin/make -f &quot;/home/inx/Desktop/TKeed/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -f &quot;/home/inx/Desktop/TKeed/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -f &quot;/home/inx/Desktop/TKeed/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="src/fast">
+				<Option output="/home/inx/Desktop/TKeed/src/cmake-build-debug/src" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/inx/Desktop/TKeed/src/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/usr/include/c++/5"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/5"/>
+					<Add directory="/usr/include/c++/5/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/5/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/5/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -f &quot;/home/inx/Desktop/TKeed/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 src/fast"/>
+					<CompileFile command="/usr/bin/make -f &quot;/home/inx/Desktop/TKeed/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -f &quot;/home/inx/Desktop/TKeed/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -f &quot;/home/inx/Desktop/TKeed/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+		</Build>
+		<Unit filename="/home/inx/Desktop/TKeed/src/epoll.c">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/home/inx/Desktop/TKeed/src/epoll.h">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/home/inx/Desktop/TKeed/src/error.h">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/home/inx/Desktop/TKeed/src/http.c">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/home/inx/Desktop/TKeed/src/http.h">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/home/inx/Desktop/TKeed/src/http_parse.c">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/home/inx/Desktop/TKeed/src/http_parse.h">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/home/inx/Desktop/TKeed/src/http_request.c">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/home/inx/Desktop/TKeed/src/http_request.h">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/home/inx/Desktop/TKeed/src/list.h">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/home/inx/Desktop/TKeed/src/main.c">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/home/inx/Desktop/TKeed/src/priority_queue.c">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/home/inx/Desktop/TKeed/src/priority_queue.h">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/home/inx/Desktop/TKeed/src/rio.c">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/home/inx/Desktop/TKeed/src/rio.h">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/home/inx/Desktop/TKeed/src/struct.h">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/home/inx/Desktop/TKeed/src/timer.c">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/home/inx/Desktop/TKeed/src/timer.h">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/home/inx/Desktop/TKeed/src/util.c">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/home/inx/Desktop/TKeed/src/util.h">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="/home/inx/Desktop/TKeed/src/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\"/>
+		</Unit>
+	</Project>
+</CodeBlocks_project_file>
