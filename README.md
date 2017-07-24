@@ -43,37 +43,38 @@
 1. 配置信息结构(unil.h)
 ```C++
 typedef struct tk_conf{
-	char root[PATHLEN];    // 文件根目录
-	int port;    // 端口号
-	// int thread_num;
+    char root[PATHLEN];    // 文件根目录
+    int port;    // 端口号
+    // int thread_num;
 }tk_conf_t;
 ```
 
 2. 请求信息结构(http_request.h)
 ```C++
 typedef struct tk_http_request{
-	char* root;    // 请求根目录
-	int fd;    // 描述符（监听、连接）
-	int epoll_fd;    // epoll描述符
-	char buff[MAX_BUF];    // 用户缓冲
+    char* root;    // 请求根目录
+    int fd;    // 描述符（监听、连接）
+    int epoll_fd;    // epoll描述符
+    char buff[MAX_BUF];    // 用户缓冲
     int method;    // 请求方法
     int state;    // 请求头解析状态
-    // 以下均为标记解析请求时索引信息
-	size_t pos;
-	size_t last;
-	void *request_start;
-	void *method_end;
-	void *uri_start;
-	void *uri_end;
-	void *path_start;
-	void *path_end;
-	void *query_start;
-	void *query_end;
-	int http_major;
-	int http_minor;
-	void *request_end;
-	struct list_head list;
-	void *cur_header_key_start;
+    // 以下主要为标记解析请求时索引信息
+    // 部分未使用，用于扩展功能
+    size_t pos;
+    size_t last;
+    void *request_start;
+    void *method_end;
+    void *uri_start;
+    void *uri_end;
+    void *path_start;
+    void *path_end;
+    void *query_start;
+    void *query_end;
+    int http_major;
+    int http_minor;
+    void *request_end;
+    struct list_head list;
+    void *cur_header_key_start;
     void *cur_header_key_end;
     void *cur_header_value_start;
     void *cur_header_value_end;
@@ -84,31 +85,31 @@ typedef struct tk_http_request{
 3. 响应头结构(http_requesh.h)
 ```C++
 typedef struct tk_http_out{
-	int fd;    // 连接描述符
-	int keep_alive;    // 连接种类
-	time_t mtime;    // 文件类型
-	int modified;    // 是否修改
-	int status;    // 返回码
+    int fd;    // 连接描述符
+    int keep_alive;    // 连接种类
+    time_t mtime;    // 文件类型
+    int modified;    // 是否修改
+    int status;    // 返回码
 }tk_http_out_t;
 ```
 
 4. 优先队列结构(priority_queue.h)
 ```C++
 typedef struct priority_queue{
-	void **pq;    // 优先队列节点指针
-	size_t nalloc;    // 优先队列实际元素个数
-	size_t size;    // 优先队列大小
-	tk_pq_comparator_pt comp;    // 堆模式
+    void **pq;    // 优先队列节点指针
+    size_t nalloc;    // 优先队列实际元素个数
+    size_t size;    // 优先队列大小
+    tk_pq_comparator_pt comp;    // 堆模式
 }tk_pq_t;
 ```
 
 5. 时间结构(timer.h)
 ```C++
 typedef struct tk_timer{
-	size_t key;    // 标记超时时间
-	int deleted;    // 标记是否被删除
-	timer_handler_pt handler;    // 超时处理
-	tk_http_request_t *request;    // 指向对应的request请求
+    size_t key;    // 标记超时时间
+    int deleted;    // 标记是否被删除
+    timer_handler_pt handler;    // 超时处理
+    tk_http_request_t *request;    // 指向对应的request请求
 } tk_timer_t;
 ```
 
@@ -132,7 +133,7 @@ typedef struct{
 
     - 处理连接：void accept_connection(int listen_fd, int epoll_fd, char* path);
 
-2.epoll.c
+2. epoll.c
 
     - 创建epoll：int tk_epoll_create(int flags);
 
