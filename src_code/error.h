@@ -1,7 +1,6 @@
-/* 
- * Copyright, TeeKee
- * Date, 2017.7.20
- */
+//
+// Latest edit by TeeKee on 2017/7/23.
+//
  
 #ifndef ERROR_H
 #define ERROR_H

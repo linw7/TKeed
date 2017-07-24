@@ -1,7 +1,6 @@
-/* 
- * Copyright, TeeKee
- * Date, 2017.7.20
- */
+//
+// Latest edit by TeeKee on 2017/7/23.
+//
 
 #ifndef EPOLL_H
 #define EPOLL_H

@@ -193,7 +193,6 @@ void do_request(void *ptr){
             goto err;
         }
 
-
         tk_http_out_t *out = (tk_http_out_t *)malloc(sizeof(tk_http_out_t));
         tk_init_out_t(out, fd);
 

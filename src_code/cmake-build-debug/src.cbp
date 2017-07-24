@@ -8,143 +8,81 @@
 		<Option virtualFolders="CMake Files\;"/>
 		<Build>
 			<Target title="all">
-				<Option working_dir="/home/inx/Desktop/TKeed/src/cmake-build-debug"/>
+				<Option working_dir="C:/Users/TeeKee/Desktop/WorkSpace/TKeed/src_code/cmake-build-debug"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="/usr/bin/make -f &quot;/home/inx/Desktop/TKeed/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
-					<CompileFile command="/usr/bin/make -f &quot;/home/inx/Desktop/TKeed/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -f &quot;/home/inx/Desktop/TKeed/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -f &quot;/home/inx/Desktop/TKeed/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-				</MakeCommands>
-			</Target>
-			<Target title="rebuild_cache">
-				<Option working_dir="/home/inx/Desktop/TKeed/src/cmake-build-debug"/>
-				<Option type="4"/>
-				<MakeCommands>
-					<Build command="/usr/bin/make -f &quot;/home/inx/Desktop/TKeed/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
-					<CompileFile command="/usr/bin/make -f &quot;/home/inx/Desktop/TKeed/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -f &quot;/home/inx/Desktop/TKeed/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -f &quot;/home/inx/Desktop/TKeed/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-				</MakeCommands>
-			</Target>
-			<Target title="edit_cache">
-				<Option working_dir="/home/inx/Desktop/TKeed/src/cmake-build-debug"/>
-				<Option type="4"/>
-				<MakeCommands>
-					<Build command="/usr/bin/make -f &quot;/home/inx/Desktop/TKeed/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
-					<CompileFile command="/usr/bin/make -f &quot;/home/inx/Desktop/TKeed/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -f &quot;/home/inx/Desktop/TKeed/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -f &quot;/home/inx/Desktop/TKeed/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/TeeKee/Desktop/WorkSpace/TKeed/src_code/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/TeeKee/Desktop/WorkSpace/TKeed/src_code/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/TeeKee/Desktop/WorkSpace/TKeed/src_code/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/TeeKee/Desktop/WorkSpace/TKeed/src_code/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="src">
-				<Option output="/home/inx/Desktop/TKeed/src/cmake-build-debug/src" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/home/inx/Desktop/TKeed/src/cmake-build-debug"/>
+				<Option output="C:/Users/TeeKee/Desktop/WorkSpace/TKeed/src_code/cmake-build-debug/src.exe" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="C:/Users/TeeKee/Desktop/WorkSpace/TKeed/src_code/cmake-build-debug"/>
 				<Option object_output="./"/>
 				<Option type="1"/>
 				<Option compiler="gcc"/>
 				<Compiler>
-					<Add directory="/usr/include/c++/5"/>
-					<Add directory="/usr/include/x86_64-linux-gnu/c++/5"/>
-					<Add directory="/usr/include/c++/5/backward"/>
-					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/5/include"/>
-					<Add directory="/usr/local/include"/>
-					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/5/include-fixed"/>
-					<Add directory="/usr/include/x86_64-linux-gnu"/>
-					<Add directory="/usr/include"/>
+					<Add directory="c:\mingw\bin\../lib/gcc/mingw32/5.3.0/include/c++"/>
+					<Add directory="c:\mingw\bin\../lib/gcc/mingw32/5.3.0/include/c++/mingw32"/>
+					<Add directory="c:\mingw\bin\../lib/gcc/mingw32/5.3.0/include/c++/backward"/>
+					<Add directory="c:\mingw\bin\../lib/gcc/mingw32/5.3.0/include"/>
+					<Add directory="c:\mingw\bin\../lib/gcc/mingw32/5.3.0/../../../../include"/>
+					<Add directory="c:\mingw\bin\../lib/gcc/mingw32/5.3.0/include-fixed"/>
+					<Add directory="c:\mingw\bin\../lib/gcc/mingw32/5.3.0/../../../../mingw32/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="/usr/bin/make -f &quot;/home/inx/Desktop/TKeed/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 src"/>
-					<CompileFile command="/usr/bin/make -f &quot;/home/inx/Desktop/TKeed/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -f &quot;/home/inx/Desktop/TKeed/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -f &quot;/home/inx/Desktop/TKeed/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/TeeKee/Desktop/WorkSpace/TKeed/src_code/cmake-build-debug/Makefile&quot;  VERBOSE=1 src"/>
+					<CompileFile command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/TeeKee/Desktop/WorkSpace/TKeed/src_code/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/TeeKee/Desktop/WorkSpace/TKeed/src_code/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/TeeKee/Desktop/WorkSpace/TKeed/src_code/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="src/fast">
-				<Option output="/home/inx/Desktop/TKeed/src/cmake-build-debug/src" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/home/inx/Desktop/TKeed/src/cmake-build-debug"/>
+				<Option output="C:/Users/TeeKee/Desktop/WorkSpace/TKeed/src_code/cmake-build-debug/src.exe" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="C:/Users/TeeKee/Desktop/WorkSpace/TKeed/src_code/cmake-build-debug"/>
 				<Option object_output="./"/>
 				<Option type="1"/>
 				<Option compiler="gcc"/>
 				<Compiler>
-					<Add directory="/usr/include/c++/5"/>
-					<Add directory="/usr/include/x86_64-linux-gnu/c++/5"/>
-					<Add directory="/usr/include/c++/5/backward"/>
-					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/5/include"/>
-					<Add directory="/usr/local/include"/>
-					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/5/include-fixed"/>
-					<Add directory="/usr/include/x86_64-linux-gnu"/>
-					<Add directory="/usr/include"/>
+					<Add directory="c:\mingw\bin\../lib/gcc/mingw32/5.3.0/include/c++"/>
+					<Add directory="c:\mingw\bin\../lib/gcc/mingw32/5.3.0/include/c++/mingw32"/>
+					<Add directory="c:\mingw\bin\../lib/gcc/mingw32/5.3.0/include/c++/backward"/>
+					<Add directory="c:\mingw\bin\../lib/gcc/mingw32/5.3.0/include"/>
+					<Add directory="c:\mingw\bin\../lib/gcc/mingw32/5.3.0/../../../../include"/>
+					<Add directory="c:\mingw\bin\../lib/gcc/mingw32/5.3.0/include-fixed"/>
+					<Add directory="c:\mingw\bin\../lib/gcc/mingw32/5.3.0/../../../../mingw32/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="/usr/bin/make -f &quot;/home/inx/Desktop/TKeed/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 src/fast"/>
-					<CompileFile command="/usr/bin/make -f &quot;/home/inx/Desktop/TKeed/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -f &quot;/home/inx/Desktop/TKeed/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -f &quot;/home/inx/Desktop/TKeed/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/TeeKee/Desktop/WorkSpace/TKeed/src_code/cmake-build-debug/Makefile&quot;  VERBOSE=1 src/fast"/>
+					<CompileFile command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/TeeKee/Desktop/WorkSpace/TKeed/src_code/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/TeeKee/Desktop/WorkSpace/TKeed/src_code/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/TeeKee/Desktop/WorkSpace/TKeed/src_code/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="edit_cache">
+				<Option working_dir="C:/Users/TeeKee/Desktop/WorkSpace/TKeed/src_code/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/TeeKee/Desktop/WorkSpace/TKeed/src_code/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/TeeKee/Desktop/WorkSpace/TKeed/src_code/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/TeeKee/Desktop/WorkSpace/TKeed/src_code/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/TeeKee/Desktop/WorkSpace/TKeed/src_code/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="rebuild_cache">
+				<Option working_dir="C:/Users/TeeKee/Desktop/WorkSpace/TKeed/src_code/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/TeeKee/Desktop/WorkSpace/TKeed/src_code/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/TeeKee/Desktop/WorkSpace/TKeed/src_code/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/TeeKee/Desktop/WorkSpace/TKeed/src_code/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/TeeKee/Desktop/WorkSpace/TKeed/src_code/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 		</Build>
-		<Unit filename="/home/inx/Desktop/TKeed/src/epoll.c">
-			<Option target="src"/>
-		</Unit>
-		<Unit filename="/home/inx/Desktop/TKeed/src/epoll.h">
-			<Option target="src"/>
-		</Unit>
-		<Unit filename="/home/inx/Desktop/TKeed/src/error.h">
-			<Option target="src"/>
-		</Unit>
-		<Unit filename="/home/inx/Desktop/TKeed/src/http.c">
-			<Option target="src"/>
-		</Unit>
-		<Unit filename="/home/inx/Desktop/TKeed/src/http.h">
-			<Option target="src"/>
-		</Unit>
-		<Unit filename="/home/inx/Desktop/TKeed/src/http_parse.c">
-			<Option target="src"/>
-		</Unit>
-		<Unit filename="/home/inx/Desktop/TKeed/src/http_parse.h">
-			<Option target="src"/>
-		</Unit>
-		<Unit filename="/home/inx/Desktop/TKeed/src/http_request.c">
-			<Option target="src"/>
-		</Unit>
-		<Unit filename="/home/inx/Desktop/TKeed/src/http_request.h">
-			<Option target="src"/>
-		</Unit>
-		<Unit filename="/home/inx/Desktop/TKeed/src/list.h">
-			<Option target="src"/>
-		</Unit>
-		<Unit filename="/home/inx/Desktop/TKeed/src/main.c">
-			<Option target="src"/>
-		</Unit>
-		<Unit filename="/home/inx/Desktop/TKeed/src/priority_queue.c">
-			<Option target="src"/>
-		</Unit>
-		<Unit filename="/home/inx/Desktop/TKeed/src/priority_queue.h">
-			<Option target="src"/>
-		</Unit>
-		<Unit filename="/home/inx/Desktop/TKeed/src/rio.c">
-			<Option target="src"/>
-		</Unit>
-		<Unit filename="/home/inx/Desktop/TKeed/src/rio.h">
-			<Option target="src"/>
-		</Unit>
-		<Unit filename="/home/inx/Desktop/TKeed/src/struct.h">
-			<Option target="src"/>
-		</Unit>
-		<Unit filename="/home/inx/Desktop/TKeed/src/timer.c">
-			<Option target="src"/>
-		</Unit>
-		<Unit filename="/home/inx/Desktop/TKeed/src/timer.h">
-			<Option target="src"/>
-		</Unit>
-		<Unit filename="/home/inx/Desktop/TKeed/src/util.c">
-			<Option target="src"/>
-		</Unit>
-		<Unit filename="/home/inx/Desktop/TKeed/src/util.h">
-			<Option target="src"/>
-		</Unit>
-		<Unit filename="/home/inx/Desktop/TKeed/src/CMakeLists.txt">
+		<Unit filename="C:/Users/TeeKee/Desktop/WorkSpace/TKeed/src_code/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\"/>
 		</Unit>
 	</Project>
