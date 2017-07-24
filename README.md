@@ -4,36 +4,6 @@
 
 ---
 
-## 进度记录
-
-| Scrum | Feature | Done | Srpint Review |
-|:-----:|:-------:|:----:|:-------------:|
-| Day 1|配置读取；监听请求；epoll封装| 编译通过；单元测试通过|调试比较困难|
-| Day 2|改变封装粒度；定义常量值|对Sprint 1封装；规定常量| 代码规范有待加强|
-| Day 3|定义tk_time_t结构体；实现时间部分操作|不能编译，需要用优先队列组织 |定义结构体需考虑扩展性|
-| Day 4|定义tk_pq_t结构体，完成优先队列 | 编译通过，测试程序可正确运行| 需要加入debug模块辅助调试|
-| Day 5|完成list工具包|编译通过，测试程序正确运行| 链表接口中数据元素类型不能确定 |
-| Day 6|完成debug模块；封装IO操作 | debug接口可用，RIO包编译通过|debug接口通用性较差|
-
----
-
-## 主要模块
-
-| Module | Component | Efficiency |Dependent|Line|
-|:-----:|:-------:|:----:|:-------:|:------:|
-|主模块  |  main.c | 全局入口，完成初始化，循环调用accept和do_request |util.h + epoll.h + http.h + timer.h| 73 | 
-|工具模块|util.h & util.c|读取配置文件，创建套接字并绑定监听，分发epoll事件 | epoll.h + http_request.h | 32 + 173 |
-|epoll模块|epoll.h & epoll.c|对epoll接口封装并实现功能分发| -- | -- | -- |
-|time模块| timer.h & timer.c|记录时间戳，设置超时控制| -- | -- | -- |
-|http模块| http.h & http.c | -- | -- | -- |
-|http_parse模块|http_parse.h & http_parse.c | -- | -- | -- |
-|http_request模块|http_request.h & http_request.c | -- | -- | -- |
-|list模块（工具）| list.h & list.c | -- | -- | -- |
-|pq模块（工具）| priority_queue.h & priority_queue.c | -- | -- | -- |
-|rio模块（工具）|rio.h & rio.c | -- | -- | -- |
-
----
-
 ## 具体实现
 
 了解快速了解一个项目，第一步需要做的都是从项目核心结构体开始，第二步是了解这些核心结构体是通过什么数据结构组织在一起的，第三步是各个模块具体实现。
@@ -179,7 +149,7 @@ typedef struct{
 
     - 关闭连接：int tk_http_close_conn(tk_http_request_t *request);
 
-- timer.h
+- timer.c
 
     - 刷新当前时间：void tk_time_update();
     
