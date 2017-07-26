@@ -1,5 +1,5 @@
-cmake_minimum_required(VERSION 3.7)
-project(src)
+cmake_minimum_required(VERSION 3.8)
+project(src_code)
 
 set(CMAKE_CXX_STANDARD 11)
 
@@ -19,9 +19,11 @@ set(SOURCE_FILES
         priority_queue.h
         rio.c
         rio.h
+        threadpool.c
+        threadpool.h
         timer.c
         timer.h
         util.c
-        util.h struct.h)
+        util.h)
 
-add_executable(src ${SOURCE_FILES})
+add_executable(src_code ${SOURCE_FILES})

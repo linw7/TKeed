@@ -4,6 +4,7 @@
 
 // 系统头文件
 #include <stdio.h>
+#include "threadpool.h"
 #include "http.h"
 
 #define DEFAULT_CONFIG "tkeed.conf"
@@ -36,6 +37,9 @@ int main(int argc, char *argv[]){
     tk_init_request_t(request, listen_fd, epoll_fd, path);
     tk_epoll_add(epoll_fd, listen_fd, request, (EPOLLIN | EPOLLET));
 
+    // 初始化线程池
+    tk_threadpool_t *tp = threadpool_init(4);
+
     // 初始化计时器
     tk_timer_init();
 
@@ -48,7 +52,7 @@ int main(int argc, char *argv[]){
         // 处理已经超时的请求
         tk_handle_expire_timers();
         // 遍历events数组，根据监听种类及描述符类型分发操作
-        tk_handle_events(epoll_fd, listen_fd, events, events_num, path);
+        tk_handle_events(epoll_fd, listen_fd, events, events_num, path, tp);
     }
 }
 

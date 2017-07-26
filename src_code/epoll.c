@@ -51,7 +51,7 @@ int tk_epoll_wait(int epoll_fd, struct epoll_event *events, int max_events, int 
 }
 
 void tk_handle_events(int epoll_fd, int listen_fd, struct epoll_event* events, 
-    int events_num, char* path){
+    int events_num, char* path, tk_threadpool_t* tp){
     // events数组由操作系统callback填入等信息
     for(int i = 0; i < events_num; i++){
         // 取出有事件请求的监听符
@@ -68,7 +68,8 @@ void tk_handle_events(int epoll_fd, int listen_fd, struct epoll_event* events,
                 continue;
             }
             // 处理客户机请求
-            do_request(events[i].data.ptr);
+			int rc = threadpool_add(tp, do_request, events[i].data.ptr);
+            // do_request(events[i].data.ptr);
         }
     }
 }

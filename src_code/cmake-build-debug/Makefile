@@ -110,17 +110,287 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named src
+# Target rules for targets named src_code
 
 # Build rule for target.
-src: cmake_check_build_system
-	$(MAKE) -f CMakeFiles\Makefile2 src
-.PHONY : src
+src_code: cmake_check_build_system
+	$(MAKE) -f CMakeFiles\Makefile2 src_code
+.PHONY : src_code
 
 # fast build rule for target.
-src/fast:
-	$(MAKE) -f CMakeFiles\src.dir\build.make CMakeFiles/src.dir/build
-.PHONY : src/fast
+src_code/fast:
+	$(MAKE) -f CMakeFiles\src_code.dir\build.make CMakeFiles/src_code.dir/build
+.PHONY : src_code/fast
+
+epoll.obj: epoll.c.obj
+
+.PHONY : epoll.obj
+
+# target to build an object file
+epoll.c.obj:
+	$(MAKE) -f CMakeFiles\src_code.dir\build.make CMakeFiles/src_code.dir/epoll.c.obj
+.PHONY : epoll.c.obj
+
+epoll.i: epoll.c.i
+
+.PHONY : epoll.i
+
+# target to preprocess a source file
+epoll.c.i:
+	$(MAKE) -f CMakeFiles\src_code.dir\build.make CMakeFiles/src_code.dir/epoll.c.i
+.PHONY : epoll.c.i
+
+epoll.s: epoll.c.s
+
+.PHONY : epoll.s
+
+# target to generate assembly for a file
+epoll.c.s:
+	$(MAKE) -f CMakeFiles\src_code.dir\build.make CMakeFiles/src_code.dir/epoll.c.s
+.PHONY : epoll.c.s
+
+http.obj: http.c.obj
+
+.PHONY : http.obj
+
+# target to build an object file
+http.c.obj:
+	$(MAKE) -f CMakeFiles\src_code.dir\build.make CMakeFiles/src_code.dir/http.c.obj
+.PHONY : http.c.obj
+
+http.i: http.c.i
+
+.PHONY : http.i
+
+# target to preprocess a source file
+http.c.i:
+	$(MAKE) -f CMakeFiles\src_code.dir\build.make CMakeFiles/src_code.dir/http.c.i
+.PHONY : http.c.i
+
+http.s: http.c.s
+
+.PHONY : http.s
+
+# target to generate assembly for a file
+http.c.s:
+	$(MAKE) -f CMakeFiles\src_code.dir\build.make CMakeFiles/src_code.dir/http.c.s
+.PHONY : http.c.s
+
+http_parse.obj: http_parse.c.obj
+
+.PHONY : http_parse.obj
+
+# target to build an object file
+http_parse.c.obj:
+	$(MAKE) -f CMakeFiles\src_code.dir\build.make CMakeFiles/src_code.dir/http_parse.c.obj
+.PHONY : http_parse.c.obj
+
+http_parse.i: http_parse.c.i
+
+.PHONY : http_parse.i
+
+# target to preprocess a source file
+http_parse.c.i:
+	$(MAKE) -f CMakeFiles\src_code.dir\build.make CMakeFiles/src_code.dir/http_parse.c.i
+.PHONY : http_parse.c.i
+
+http_parse.s: http_parse.c.s
+
+.PHONY : http_parse.s
+
+# target to generate assembly for a file
+http_parse.c.s:
+	$(MAKE) -f CMakeFiles\src_code.dir\build.make CMakeFiles/src_code.dir/http_parse.c.s
+.PHONY : http_parse.c.s
+
+http_request.obj: http_request.c.obj
+
+.PHONY : http_request.obj
+
+# target to build an object file
+http_request.c.obj:
+	$(MAKE) -f CMakeFiles\src_code.dir\build.make CMakeFiles/src_code.dir/http_request.c.obj
+.PHONY : http_request.c.obj
+
+http_request.i: http_request.c.i
+
+.PHONY : http_request.i
+
+# target to preprocess a source file
+http_request.c.i:
+	$(MAKE) -f CMakeFiles\src_code.dir\build.make CMakeFiles/src_code.dir/http_request.c.i
+.PHONY : http_request.c.i
+
+http_request.s: http_request.c.s
+
+.PHONY : http_request.s
+
+# target to generate assembly for a file
+http_request.c.s:
+	$(MAKE) -f CMakeFiles\src_code.dir\build.make CMakeFiles/src_code.dir/http_request.c.s
+.PHONY : http_request.c.s
+
+main.obj: main.c.obj
+
+.PHONY : main.obj
+
+# target to build an object file
+main.c.obj:
+	$(MAKE) -f CMakeFiles\src_code.dir\build.make CMakeFiles/src_code.dir/main.c.obj
+.PHONY : main.c.obj
+
+main.i: main.c.i
+
+.PHONY : main.i
+
+# target to preprocess a source file
+main.c.i:
+	$(MAKE) -f CMakeFiles\src_code.dir\build.make CMakeFiles/src_code.dir/main.c.i
+.PHONY : main.c.i
+
+main.s: main.c.s
+
+.PHONY : main.s
+
+# target to generate assembly for a file
+main.c.s:
+	$(MAKE) -f CMakeFiles\src_code.dir\build.make CMakeFiles/src_code.dir/main.c.s
+.PHONY : main.c.s
+
+priority_queue.obj: priority_queue.c.obj
+
+.PHONY : priority_queue.obj
+
+# target to build an object file
+priority_queue.c.obj:
+	$(MAKE) -f CMakeFiles\src_code.dir\build.make CMakeFiles/src_code.dir/priority_queue.c.obj
+.PHONY : priority_queue.c.obj
+
+priority_queue.i: priority_queue.c.i
+
+.PHONY : priority_queue.i
+
+# target to preprocess a source file
+priority_queue.c.i:
+	$(MAKE) -f CMakeFiles\src_code.dir\build.make CMakeFiles/src_code.dir/priority_queue.c.i
+.PHONY : priority_queue.c.i
+
+priority_queue.s: priority_queue.c.s
+
+.PHONY : priority_queue.s
+
+# target to generate assembly for a file
+priority_queue.c.s:
+	$(MAKE) -f CMakeFiles\src_code.dir\build.make CMakeFiles/src_code.dir/priority_queue.c.s
+.PHONY : priority_queue.c.s
+
+rio.obj: rio.c.obj
+
+.PHONY : rio.obj
+
+# target to build an object file
+rio.c.obj:
+	$(MAKE) -f CMakeFiles\src_code.dir\build.make CMakeFiles/src_code.dir/rio.c.obj
+.PHONY : rio.c.obj
+
+rio.i: rio.c.i
+
+.PHONY : rio.i
+
+# target to preprocess a source file
+rio.c.i:
+	$(MAKE) -f CMakeFiles\src_code.dir\build.make CMakeFiles/src_code.dir/rio.c.i
+.PHONY : rio.c.i
+
+rio.s: rio.c.s
+
+.PHONY : rio.s
+
+# target to generate assembly for a file
+rio.c.s:
+	$(MAKE) -f CMakeFiles\src_code.dir\build.make CMakeFiles/src_code.dir/rio.c.s
+.PHONY : rio.c.s
+
+threadpool.obj: threadpool.c.obj
+
+.PHONY : threadpool.obj
+
+# target to build an object file
+threadpool.c.obj:
+	$(MAKE) -f CMakeFiles\src_code.dir\build.make CMakeFiles/src_code.dir/threadpool.c.obj
+.PHONY : threadpool.c.obj
+
+threadpool.i: threadpool.c.i
+
+.PHONY : threadpool.i
+
+# target to preprocess a source file
+threadpool.c.i:
+	$(MAKE) -f CMakeFiles\src_code.dir\build.make CMakeFiles/src_code.dir/threadpool.c.i
+.PHONY : threadpool.c.i
+
+threadpool.s: threadpool.c.s
+
+.PHONY : threadpool.s
+
+# target to generate assembly for a file
+threadpool.c.s:
+	$(MAKE) -f CMakeFiles\src_code.dir\build.make CMakeFiles/src_code.dir/threadpool.c.s
+.PHONY : threadpool.c.s
+
+timer.obj: timer.c.obj
+
+.PHONY : timer.obj
+
+# target to build an object file
+timer.c.obj:
+	$(MAKE) -f CMakeFiles\src_code.dir\build.make CMakeFiles/src_code.dir/timer.c.obj
+.PHONY : timer.c.obj
+
+timer.i: timer.c.i
+
+.PHONY : timer.i
+
+# target to preprocess a source file
+timer.c.i:
+	$(MAKE) -f CMakeFiles\src_code.dir\build.make CMakeFiles/src_code.dir/timer.c.i
+.PHONY : timer.c.i
+
+timer.s: timer.c.s
+
+.PHONY : timer.s
+
+# target to generate assembly for a file
+timer.c.s:
+	$(MAKE) -f CMakeFiles\src_code.dir\build.make CMakeFiles/src_code.dir/timer.c.s
+.PHONY : timer.c.s
+
+util.obj: util.c.obj
+
+.PHONY : util.obj
+
+# target to build an object file
+util.c.obj:
+	$(MAKE) -f CMakeFiles\src_code.dir\build.make CMakeFiles/src_code.dir/util.c.obj
+.PHONY : util.c.obj
+
+util.i: util.c.i
+
+.PHONY : util.i
+
+# target to preprocess a source file
+util.c.i:
+	$(MAKE) -f CMakeFiles\src_code.dir\build.make CMakeFiles/src_code.dir/util.c.i
+.PHONY : util.c.i
+
+util.s: util.c.s
+
+.PHONY : util.s
+
+# target to generate assembly for a file
+util.c.s:
+	$(MAKE) -f CMakeFiles\src_code.dir\build.make CMakeFiles/src_code.dir/util.c.s
+.PHONY : util.c.s
 
 # Help Target
 help:
@@ -128,9 +398,39 @@ help:
 	@echo ... all (the default if no target is provided)
 	@echo ... clean
 	@echo ... depend
-	@echo ... src
+	@echo ... src_code
 	@echo ... edit_cache
 	@echo ... rebuild_cache
+	@echo ... epoll.obj
+	@echo ... epoll.i
+	@echo ... epoll.s
+	@echo ... http.obj
+	@echo ... http.i
+	@echo ... http.s
+	@echo ... http_parse.obj
+	@echo ... http_parse.i
+	@echo ... http_parse.s
+	@echo ... http_request.obj
+	@echo ... http_request.i
+	@echo ... http_request.s
+	@echo ... main.obj
+	@echo ... main.i
+	@echo ... main.s
+	@echo ... priority_queue.obj
+	@echo ... priority_queue.i
+	@echo ... priority_queue.s
+	@echo ... rio.obj
+	@echo ... rio.i
+	@echo ... rio.s
+	@echo ... threadpool.obj
+	@echo ... threadpool.i
+	@echo ... threadpool.s
+	@echo ... timer.obj
+	@echo ... timer.i
+	@echo ... timer.s
+	@echo ... util.obj
+	@echo ... util.i
+	@echo ... util.s
 .PHONY : help
 
 
