@@ -1,12 +1,12 @@
 # TKeed WebServer
 
-> 麻雀虽小，五脏俱全。
+> A High Performance HTTP WebServer.
 
 ---
 
 ## 开发环境
 
-于Linux环境下开发，前期开发编辑器为Sublime，前期无法完整调试，逐个模块编译测试是否有语法错误、链接错误。功能测试只有工具模块priority_queue和list可以单独用Mock数据跑通，util模块可提前和主模块链接并调试，其他模块需要或多或少有依赖关系，中后期可测试。测试中能够通过debug信息定位的错误直接修改，难以定位的错误用Clion单步调试功能。
+于Linux环境下开发，前期开发使用Sublime，但无法完整调试，只能逐个模块编译测试是否有语法错误、链接错误。功能测试只有工具模块priority_queue和list可以单独用Mock数据跑通，util模块可提前和主模块链接并调试，其他模块需要或多或少有依赖关系。后期工程文件较多之后改用Clion开发 + 单步调试。
 
 - 操作系统：Ubuntu 16.04
 
@@ -24,10 +24,31 @@
 
 ---
 
-
 ## 具体实现
 
-了解快速了解一个项目，第一步需要做的都是从项目核心结构体开始，第二步是了解这些核心结构体是通过什么数据结构组织在一起的，第三步是各个模块具体实现。
+### 并发模型
+
+并发模型主要有多进程模型、多线程模型和事件驱动模型（select, poll, epoll）。为了减少创建进程、线程创建的开销，在并发服务器中也常设置进程池和线程池，这样在有新连接到来时就不需要重新创建造成不必要的开销。除此之外，使用epoll时，任务被拆分成了独立事件，各个事件可以单独执行，所以也可以将二者结合，TKeed正是如此。
+
+- [epoll (kernel 2.6+)](https://banu.com/blog/2/how-to-use-epoll-a-complete-example-in-c/)
+
+- non-blocking I/O
+
+- threadpool
+
+Linux内核2.6之后开始支持epoll，也是本服务器的核心。epoll模型中内核相当于监控代理，监控的粒度为每一个事件，我们把每个完整的处理过程分拆成了多个独立的事件并在epoll中注册，之后监控是否有事件发生的任务就交给内核来做，一旦监测到事件就分发到相应处理模块。就HTTP服务器而言，可以分为以下几步。在创建好了epoll之后：
+
+- 首先需要注册到"监听事件"，之后不需要一直等待下去，直接返回（异步非阻塞）。
+
+- 一旦内核监听到请求就会自动通知可以去建立连接并创建连接描述符，该连接描述符被注册到"读事件"，之后立即返回。
+
+- 用户发送的数据到达服务器，内核感知到读事件，通知服务器来读取数据，服务器读取请求数据后开始解析并返回。
+
+- 文件I/O完成，内核通知写有写事件到来，之后数据调用write函数发送至客户端。
+
+当然，TKeed并不仅仅只用到了epoll和异步非阻塞I/O模型。监听事件最先被注册，在此之后不再阻塞监听，当内核监听到事件发生之后，立即建立连接并注册读事件，读事件并不会阻塞等待用户数据，一直等到内核通知该事件到来才去获取请求，这部分使用的是epoll + 异步非阻塞I/O模型。当请求到达之后，处理请求的操作被放到线程池中，等待多个线程并发响应处理，即使某一线程读取本地文件时被阻塞也会有其他线程可以被调度执行。
+
+之所以选择epoll模型是因为事件驱动适合I/O密集型操作，而HTTP服务器最核心的任务就是响应请求的数据，涉及大量I/O请求。另外当并发量上来之后，传统的多进程、多线程模型虽然并发量很大，但大多处于阻塞状态，即使多为就绪态，系统调度开销也非常大，因此这里使用事件驱动模型无疑更适合。
 
 ### 核心结构体
 
@@ -36,14 +57,14 @@
 typedef struct tk_conf{
     char root[PATHLEN];    // 文件根目录
     int port;    // 端口号
-    // int thread_num;
+    int thread_num;    // 线程数（线程池大小）
 }tk_conf_t;
 ```
 
 2. 请求信息结构(http_request.h)
 ```C++
 typedef struct tk_http_request{
-    char* root;    // 请求根目录
+    char* root;    // 配置目录
     int fd;    // 描述符（监听、连接）
     int epoll_fd;    // epoll描述符
     char buff[MAX_BUF];    // 用户缓冲
@@ -77,7 +98,7 @@ typedef struct tk_http_request{
 ```C++
 typedef struct tk_http_out{
     int fd;    // 连接描述符
-    int keep_alive;    // 连接种类
+    int keep_alive;    // HTTP连接状态
     time_t mtime;    // 文件类型
     int modified;    // 是否修改
     int status;    // 返回码
@@ -114,11 +135,34 @@ typedef struct{
 }rio_t;
 ```
 
+7. 线程池结构（threadpool.h）
+```C++
+typedef struct threadpool{
+	pthread_mutex_t lock;    // 互斥锁
+	pthread_cond_t cond;    // 条件变量
+	pthread_t *threads;    // 线程
+	tk_task_t *head;    // 任务链表
+	int thread_count;     // 线程数
+	int queue_size;    // 任务链表长
+	int shutdown;    // 关机方式
+	int started;
+}tk_threadpool_t;
+```
+
+8. 任务结构（threadpool.h）
+```C++
+typedef struct tk_task{
+	void (*func)(void *);    //
+	void *arg;    //
+	struct tk_task *next;    // 任务链表（下一节点指针）
+}tk_task_t;
+```
+
 ### 主要函数
 
 1. util.c
 
-    - 读配置：int read_conf(char *filename, tk_conf_t* conf);
+    - 读配置：int read_conf(char* filename, tk_conf_t* conf);
 
     - 绑定监听：int socket_bind_listen(int port);
 
@@ -128,47 +172,47 @@ typedef struct{
 
     - 创建epoll：int tk_epoll_create(int flags);
 
-    - 添加到epoll：int tk_epoll_add(int epoll_fd, int fd, tk_http_request_t * request, int events);
+    - 添加到epoll：int tk_epoll_add(int epoll_fd, int fd, tk_http_request_t* request, int events);
 
-    - 从epoll删除：int tk_epoll_del(int epoll_fd, int fd, tk_http_request_t * request, int events);
+    - 从epoll删除：int tk_epoll_del(int epoll_fd, int fd, tk_http_request_t* request, int events);
 
-    - 修改事件状态：int tk_epoll_mod(int epoll_fd, int fd, tk_http_request_t * request, int events);
+    - 修改事件状态：int tk_epoll_mod(int epoll_fd, int fd, tk_http_request_t* request, int events);
 
-    - 等待事件：int tk_epoll_wait(int epoll_fd, struct epoll_event *events, int max_events, int timeout);
+    - 等待事件：int tk_epoll_wait(int epoll_fd, struct epoll_event* events, int max_events, int timeout);
 
     - 分发对应事件：void tk_handle_events(int epoll_fd, int listen_fd, struct epoll_event* events, int events_num, char* path);
 
 - http.c
 
-    - 处理请求总入口：void do_request(void *ptr);
+    - 处理请求总入口：void do_request(void* ptr);
 
-    - 解析URI：void parse_uri(char *uri, int length, char *filename, char *query);
+    - 解析URI：void parse_uri(char* uri, int length, char* filename, char *query);
 
-    - 获取文件类型：const char* get_file_type(const char *type);
+    - 获取文件类型：const char* get_file_type(const char* type);
 
-    - 错误信息处理：void do_error(int fd, char *cause, char *err_num, char *short_msg, char *long_msg);
+    - 错误信息处理：void do_error(int fd, char* cause, char* err_num, char* short_msg, char* long_msg);
 
-    - 响应静态文件：void serve_static(int fd, char *filename, size_t filesize, tk_http_out_t *out);
+    - 响应静态文件：void serve_static(int fd, char* filename, size_t filesize, tk_http_out_t* out);
 
 - http_parse.c
 
-    - 解析请求行：int tk_http_parse_request_line(tk_http_request_t *request);
+    - 解析请求行：int tk_http_parse_request_line(tk_http_request_t* request);
 
-    - 解析请求体：int tk_http_parse_request_body(tk_http_request_t *request);
+    - 解析请求体：int tk_http_parse_request_body(tk_http_request_t* request);
 
 - http_request.c
 
-    - 初始化请求头结构：int tk_init_request_t(tk_http_request_t *request, int fd, int epoll_fd, char* path);
+    - 初始化请求头结构：int tk_init_request_t(tk_http_request_t* request, int fd, int epoll_fd, char* path);
 
-    - 删除请求头结构：int tk_free_out_t(tk_http_out_t *out);
+    - 删除请求头结构：int tk_free_out_t(tk_http_out_t* out);
 
-    - 初始化响应结构：int tk_init_out_t(tk_http_out_t *out, int fd);
+    - 初始化响应结构：int tk_init_out_t(tk_http_out_t* out, int fd);
 
-    - 删除响应头结构：int tk_free_out_t(tk_http_out_t *out);
+    - 删除响应头结构：int tk_free_out_t(tk_http_out_t* out);
 
-    - 获取状态码对应提示：const char *get_shortmsg_from_status_code(int status_code);
+    - 获取状态码对应提示：const char* get_shortmsg_from_status_code(int status_code);
 
-    - 关闭连接：int tk_http_close_conn(tk_http_request_t *request);
+    - 关闭连接：int tk_http_close_conn(tk_http_request_t* request);
 
 - timer.c
 
@@ -176,13 +220,25 @@ typedef struct{
     
     - 初始化时间：int tk_timer_init();
 
-    - 新增时间戳：void tk_add_timer(tk_http_request_t *request, size_t timeout, timer_handler_pt handler);
+    - 新增时间戳：void tk_add_timer(tk_http_request_t* request, size_t timeout, timer_handler_pt handler);
 
-    - 删除时间戳：void tk_del_timer(tk_http_request_t *request);
+    - 删除时间戳：void tk_del_timer(tk_http_request_t* request);
 
     - 处理超时：void tk_handle_expire_timers();
 
-这里只罗列全局函数，模块内部调用的函数（static）这里不一一展示，除此之外还有一些数据结构接口这里不再一一列出。
+- threadpool.c
+
+    - 初始化线程池：tk_threadpool_t* threadpool_init(int thread_num);
+
+    - 添加任务：threadpool_add(tk_threadpool_t* pool, void (* func)(void*), void* arg);
+
+    - 释放线程池及任务：threadpool_free(tk_threadpool_t* pool);
+
+    - 回收线程资源：int threadpool_destory(tk_threadpool_t* pool, int graceful);
+
+    - 工作线程：void* threadpool_worker(void* arg);
+
+这里只罗列全局函数，模块内部调用的函数（static）这里不一一展示。
 
 ---
 
@@ -611,7 +667,7 @@ HTTP协议工作在应用层，端口号是80。HTTP协议被用于网络中两�
 
 - 软件开发流程
 
-    遵循完整开发流程，确定需求 -> 选定服务器模型 -> 定义数据结构 -> 开发辅助工具 -> 单元测试 -> 核心部分开发 -> 集成测试 -> 性能测试。开发环境也统一到Linux环境下，通过git进行版本控制，尽可能模式真实工作环境。
+    遵循完整开发流程，确定需求 -> 选定服务器模型 -> 定义数据结构 -> 开发辅助工具 -> 单元测试 -> 核心部分开发 -> 集成测试 -> 性能测试。开发环境也统一到Linux环境下，通过git进行版本控制，尽可能模拟真实工作环境。
 
 - 基础知识
 
