@@ -21,7 +21,7 @@ typedef struct tk_conf{
 	int thread_num;
 }tk_conf_t;
 
-int read_conf(char *filename, tk_conf_t* conf);
+int read_conf(char* filename, tk_conf_t* conf);
 void handle_for_sigpipe();
 int socket_bind_listen(int port);
 int make_socket_non_blocking(int fd);

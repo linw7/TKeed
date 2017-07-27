@@ -6,7 +6,7 @@
 
 ## 开发环境
 
-于Linux环境下开发，前期开发编辑器为Sublime，前期无法完整调试，逐个模块编译测试是否有语法错误、链接错误。功能测试只有工具模块priority_queue和list可以单独用Mock数据跑通，util模块可提前和主模块链接并调试，其他模块需要或多或少有依赖关系，中后期可测试。测试中能够通过debug信息定位的错误直接修改，难以定位的错误用Clion单步调试功能。
+于Linux环境下开发，前期开发编辑器为Sublime，前期无法完整调试，只能逐个模块编译测试是否有语法错误、链接错误。功能测试只有工具模块priority_queue和list可以单独用Mock数据跑通，util模块可提前和主模块链接并调试，其他模块需要或多或少有依赖关系。后期工程文件较多之后改用Clion开发 + 单步调试。
 
 - 操作系统：Ubuntu 16.04
 
@@ -24,10 +24,9 @@
 
 ---
 
-
 ## 具体实现
 
-了解快速了解一个项目，第一步需要做的都是从项目核心结构体开始，第二步是了解这些核心结构体是通过什么数据结构组织在一起的，第三步是各个模块具体实现。
+想要快速了解一个项目，第一步都是从项目核心结构体开始，第二步是了解核心结构体的组织形式，第三步是各个模块具体实现。
 
 ### 核心结构体
 
@@ -36,14 +35,14 @@
 typedef struct tk_conf{
     char root[PATHLEN];    // 文件根目录
     int port;    // 端口号
-    // int thread_num;
+    int thread_num;    // 线程数（线程池大小）
 }tk_conf_t;
 ```
 
 2. 请求信息结构(http_request.h)
 ```C++
 typedef struct tk_http_request{
-    char* root;    // 请求根目录
+    char* root;    // 配置目录
     int fd;    // 描述符（监听、连接）
     int epoll_fd;    // epoll描述符
     char buff[MAX_BUF];    // 用户缓冲
@@ -114,11 +113,34 @@ typedef struct{
 }rio_t;
 ```
 
+7. 线程池结构（threadpool.h）
+```C++
+typedef struct threadpool{
+	pthread_mutex_t lock;    // 互斥锁
+	pthread_cond_t cond;    // 条件变量
+	pthread_t *threads;    // 线程
+	tk_task_t *head;    // 任务链表
+	int thread_count;     // 线程数
+	int queue_size;    // 任务链表长
+	int shutdown;    // 关机方式
+	int started;
+}tk_threadpool_t;
+```
+
+8. 任务结构（threadpool.h）
+```C++
+typedef struct tk_task{
+	void (*func)(void *);    //
+	void *arg;    //
+	struct tk_task *next;    // 任务链表（下一节点指针）
+}tk_task_t;
+```
+
 ### 主要函数
 
 1. util.c
 
-    - 读配置：int read_conf(char *filename, tk_conf_t* conf);
+    - 读配置：int read_conf(char* filename, tk_conf_t* conf);
 
     - 绑定监听：int socket_bind_listen(int port);
 
@@ -128,47 +150,47 @@ typedef struct{
 
     - 创建epoll：int tk_epoll_create(int flags);
 
-    - 添加到epoll：int tk_epoll_add(int epoll_fd, int fd, tk_http_request_t * request, int events);
+    - 添加到epoll：int tk_epoll_add(int epoll_fd, int fd, tk_http_request_t* request, int events);
 
-    - 从epoll删除：int tk_epoll_del(int epoll_fd, int fd, tk_http_request_t * request, int events);
+    - 从epoll删除：int tk_epoll_del(int epoll_fd, int fd, tk_http_request_t* request, int events);
 
-    - 修改事件状态：int tk_epoll_mod(int epoll_fd, int fd, tk_http_request_t * request, int events);
+    - 修改事件状态：int tk_epoll_mod(int epoll_fd, int fd, tk_http_request_t* request, int events);
 
-    - 等待事件：int tk_epoll_wait(int epoll_fd, struct epoll_event *events, int max_events, int timeout);
+    - 等待事件：int tk_epoll_wait(int epoll_fd, struct epoll_event* events, int max_events, int timeout);
 
     - 分发对应事件：void tk_handle_events(int epoll_fd, int listen_fd, struct epoll_event* events, int events_num, char* path);
 
 - http.c
 
-    - 处理请求总入口：void do_request(void *ptr);
+    - 处理请求总入口：void do_request(void* ptr);
 
-    - 解析URI：void parse_uri(char *uri, int length, char *filename, char *query);
+    - 解析URI：void parse_uri(char* uri, int length, char* filename, char *query);
 
-    - 获取文件类型：const char* get_file_type(const char *type);
+    - 获取文件类型：const char* get_file_type(const char* type);
 
-    - 错误信息处理：void do_error(int fd, char *cause, char *err_num, char *short_msg, char *long_msg);
+    - 错误信息处理：void do_error(int fd, char* cause, char* err_num, char* short_msg, char* long_msg);
 
-    - 响应静态文件：void serve_static(int fd, char *filename, size_t filesize, tk_http_out_t *out);
+    - 响应静态文件：void serve_static(int fd, char* filename, size_t filesize, tk_http_out_t* out);
 
 - http_parse.c
 
-    - 解析请求行：int tk_http_parse_request_line(tk_http_request_t *request);
+    - 解析请求行：int tk_http_parse_request_line(tk_http_request_t* request);
 
-    - 解析请求体：int tk_http_parse_request_body(tk_http_request_t *request);
+    - 解析请求体：int tk_http_parse_request_body(tk_http_request_t* request);
 
 - http_request.c
 
-    - 初始化请求头结构：int tk_init_request_t(tk_http_request_t *request, int fd, int epoll_fd, char* path);
+    - 初始化请求头结构：int tk_init_request_t(tk_http_request_t* request, int fd, int epoll_fd, char* path);
 
-    - 删除请求头结构：int tk_free_out_t(tk_http_out_t *out);
+    - 删除请求头结构：int tk_free_out_t(tk_http_out_t* out);
 
-    - 初始化响应结构：int tk_init_out_t(tk_http_out_t *out, int fd);
+    - 初始化响应结构：int tk_init_out_t(tk_http_out_t* out, int fd);
 
-    - 删除响应头结构：int tk_free_out_t(tk_http_out_t *out);
+    - 删除响应头结构：int tk_free_out_t(tk_http_out_t* out);
 
-    - 获取状态码对应提示：const char *get_shortmsg_from_status_code(int status_code);
+    - 获取状态码对应提示：const char* get_shortmsg_from_status_code(int status_code);
 
-    - 关闭连接：int tk_http_close_conn(tk_http_request_t *request);
+    - 关闭连接：int tk_http_close_conn(tk_http_request_t* request);
 
 - timer.c
 
@@ -176,13 +198,25 @@ typedef struct{
     
     - 初始化时间：int tk_timer_init();
 
-    - 新增时间戳：void tk_add_timer(tk_http_request_t *request, size_t timeout, timer_handler_pt handler);
+    - 新增时间戳：void tk_add_timer(tk_http_request_t* request, size_t timeout, timer_handler_pt handler);
 
-    - 删除时间戳：void tk_del_timer(tk_http_request_t *request);
+    - 删除时间戳：void tk_del_timer(tk_http_request_t* request);
 
     - 处理超时：void tk_handle_expire_timers();
 
-这里只罗列全局函数，模块内部调用的函数（static）这里不一一展示，除此之外还有一些数据结构接口这里不再一一列出。
+- threadpool.c
+
+    - 初始化线程池：tk_threadpool_t* threadpool_init(int thread_num);
+
+    - 添加任务：threadpool_add(tk_threadpool_t* pool, void (* func)(void*), void* arg);
+
+    - 释放线程池及任务：threadpool_free(tk_threadpool_t* pool);
+
+    - 回收线程资源：int threadpool_destory(tk_threadpool_t* pool, int graceful);
+
+    - 工作线程：void* threadpool_worker(void* arg);
+
+这里只罗列全局函数，模块内部调用的函数（static）这里不一一展示，除此之外还有一些数据结构这里不再一一列出。
 
 ---
 
@@ -611,7 +645,7 @@ HTTP协议工作在应用层，端口号是80。HTTP协议被用于网络中两�
 
 - 软件开发流程
 
-    遵循完整开发流程，确定需求 -> 选定服务器模型 -> 定义数据结构 -> 开发辅助工具 -> 单元测试 -> 核心部分开发 -> 集成测试 -> 性能测试。开发环境也统一到Linux环境下，通过git进行版本控制，尽可能模式真实工作环境。
+    遵循完整开发流程，确定需求 -> 选定服务器模型 -> 定义数据结构 -> 开发辅助工具 -> 单元测试 -> 核心部分开发 -> 集成测试 -> 性能测试。开发环境也统一到Linux环境下，通过git进行版本控制，尽可能模拟真实工作环境。
 
 - 基础知识
 

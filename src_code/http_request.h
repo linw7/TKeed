@@ -5,6 +5,7 @@
 #ifndef HTTP_REQUEST_H
 #define HTTP_REQUEST_H
 
+#include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
 #include <time.h>
@@ -39,26 +40,26 @@ typedef struct tk_http_request{
 	size_t last;
 	int state;
 
-	void *request_start;
-	void *method_end;
+	void* request_start;
+	void* method_end;
 	int method;
-	void *uri_start;
-	void *uri_end;
-	void *path_start;
-	void *path_end;
-	void *query_start;
-	void *query_end;
+	void* uri_start;
+	void* uri_end;
+	void* path_start;
+	void* path_end;
+	void* query_start;
+	void* query_end;
 	int http_major;
 	int http_minor;
-	void *request_end;
+	void* request_end;
 
 	struct list_head list;    // 存储请求头，list.h中定义了此结构
 	
-	void *cur_header_key_start;
-    void *cur_header_key_end;
-    void *cur_header_value_start;
-    void *cur_header_value_end;
-    void *timer;
+	void* cur_header_key_start;
+    void* cur_header_key_end;
+    void* cur_header_value_start;
+    void* cur_header_value_end;
+    void* timer;
 }tk_http_request_t;
 
 typedef struct tk_http_out{
@@ -70,28 +71,26 @@ typedef struct tk_http_out{
 }tk_http_out_t;
 
 typedef struct tk_http_header{
-	void *key_start;
-	void *key_end;
-	void *value_start;
-	void *value_end;
+	void* key_start;
+	void* key_end;
+	void* value_start;
+	void* value_end;
 	struct list_head list;
 }tk_http_header_t;
 
-typedef int (*tk_http_header_handler_pt)(tk_http_request_t *request, tk_http_out_t *out, char *data, int len);
+typedef int (*tk_http_header_handler_pt)(tk_http_request_t* request, tk_http_out_t* out, char* data, int len);
 
 typedef struct tk_http_header_handle{
-	char *name;
+	char* name;
 	tk_http_header_handler_pt handler;    // 函数指针
 }tk_http_header_handle_t;
 
 extern tk_http_header_handle_t tk_http_headers_in[];
 
-void tk_http_handle_header(tk_http_request_t *request, tk_http_out_t *out);
-int tk_http_close_conn(tk_http_request_t *request);
-int tk_init_request_t(tk_http_request_t *request, int fd, int epoll_fd, char* path);
-int tk_free_request_t(tk_http_request_t *request);
-int tk_init_out_t(tk_http_out_t *out, int fd);
-int tk_free_out_t(tk_http_out_t *out);
-const char *get_shortmsg_from_status_code(int status_code);
+void tk_http_handle_header(tk_http_request_t* request, tk_http_out_t* out);
+int tk_http_close_conn(tk_http_request_t* request);
+int tk_init_request_t(tk_http_request_t* request, int fd, int epoll_fd, char* path);
+int tk_init_out_t(tk_http_out_t* out, int fd);
+const char* get_shortmsg_from_status_code(int status_code);
 
 #endif

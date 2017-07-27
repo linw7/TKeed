@@ -9,9 +9,9 @@
 tk_pq_t tk_timer;
 size_t tk_current_msec;
 
-int timer_comp(void *ti, void *tj){
-    tk_timer_t *timeri = (tk_timer_t *)ti;
-    tk_timer_t *timerj = (tk_timer_t *)tj;
+int timer_comp(void* ti, void* tj){
+    tk_timer_t* timeri = (tk_timer_t*)ti;
+    tk_timer_t* timerj = (tk_timer_t*)tj;
     return (timeri->key < timerj->key) ? 1 : 0;
 }
 
@@ -20,7 +20,6 @@ void tk_time_update(){
 	struct timeval tv;
 	int rc = gettimeofday(&tv, NULL);
 	tk_current_msec = ((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
-	// printf("Now, time = %zu \n\n", tk_current_msec);
 }
 
 int tk_timer_init(){
@@ -39,7 +38,7 @@ int tk_find_timer(){
     	// 更新当前时间
         tk_time_update();
         // timer_node指向最小的时间
-        tk_timer_t *timer_node = (tk_timer_t *)tk_pq_min(&tk_timer);
+        tk_timer_t* timer_node = (tk_timer_t*)tk_pq_min(&tk_timer);
         // 如果已删则释放此节点（tk_del_timer只置位不删除）
         if(timer_node->deleted){
             int rc = tk_pq_delmin(&tk_timer);
@@ -58,7 +57,7 @@ void tk_handle_expire_timers(){
     while (!tk_pq_is_empty(&tk_timer)){
     	// 更新当前时间
         tk_time_update();
-        tk_timer_t *timer_node = (tk_timer_t *)tk_pq_min(&tk_timer);
+        tk_timer_t* timer_node = (tk_timer_t*)tk_pq_min(&tk_timer);
         // 如果已删则释放此节点
         if (timer_node->deleted){
             int rc = tk_pq_delmin(&tk_timer); 
@@ -79,10 +78,10 @@ void tk_handle_expire_timers(){
     }
 }
 
-void tk_add_timer(tk_http_request_t *request, size_t timeout, timer_handler_pt handler){
+void tk_add_timer(tk_http_request_t* request, size_t timeout, timer_handler_pt handler){
     tk_time_update();
     // 申请新的tk_timer_t节点，并加入到tk_http_request_t的timer下
-    tk_timer_t *timer_node = (tk_timer_t *)malloc(sizeof(tk_timer_t));
+    tk_timer_t* timer_node = (tk_timer_t*)malloc(sizeof(tk_timer_t));
     request->timer = timer_node;
     // 加入时设置超时阈值，删除信息等
     timer_node->key = tk_current_msec + timeout;
@@ -94,9 +93,9 @@ void tk_add_timer(tk_http_request_t *request, size_t timeout, timer_handler_pt h
     int rc = tk_pq_insert(&tk_timer, timer_node);
 }
 
-void tk_del_timer(tk_http_request_t *request) {
+void tk_del_timer(tk_http_request_t* request) {
     tk_time_update();
-    tk_timer_t *timer_node = request->timer;
+    tk_timer_t* timer_node = request->timer;
     // 惰性删除
     // 标记为已删，在find_timer和handle_expire_timers检查队列时会删除
     timer_node->deleted = 1;
