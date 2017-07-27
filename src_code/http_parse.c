@@ -26,12 +26,10 @@ int tk_http_parse_request_line(tk_http_request_t *request){
 
     u_char ch, *p, *m;
     size_t pi;
-
     for(pi = request->pos; pi < request->last; pi++){
         p = (u_char *)&request->buff[pi % MAX_BUF];
         ch = *p;
 
-        printf("State : %d, char : %c\n", state, ch);
         switch(state){
             case sw_start:
                 request->request_start = p;
