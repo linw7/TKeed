@@ -18,9 +18,9 @@
 
 - 版本控制：git
 
-- 代码结构：[callgraph](http://www.tinylab.org/callgraph-draw-the-calltree-of-c-functions/)
+- 代码结构：[Understand](https://scitools.com/) + [callgraph](http://blog.csdn.net/solstice/article/details/488865)
 
-- 集成环境：Clion
+- 集成环境：[Clion](https://www.jetbrains.com/clion/)
 
 ---
 
@@ -158,6 +158,10 @@ typedef struct tk_task{
 }tk_task_t;
 ```
 
+### 调用树
+
+![调用树](./datum/ClusterCall_full.jpg)
+
 ### 主要函数
 
 1. util.c
@@ -238,7 +242,6 @@ typedef struct tk_task{
 
     - 工作线程：void* threadpool_worker(void* arg);
 
-这里只罗列全局函数，模块内部调用的函数（static）这里不一一展示。
 
 ---
 
