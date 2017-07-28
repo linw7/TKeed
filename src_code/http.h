@@ -33,8 +33,8 @@
 
 // 用key-value表示mime_type_t
 typedef struct mime_type{
-	const char *type;
-	const char *value;
+    const char *type;
+    const char *value;
 }mime_type_t;
 
 void do_request(void *ptr);

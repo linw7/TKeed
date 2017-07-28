@@ -15,16 +15,16 @@ tk_conf_t conf;
 
 int main(int argc, char *argv[]){
     // 读取配置文件
-	read_conf(conf_file, &conf);
+    read_conf(conf_file, &conf);
 
     // 处理SIGPIPE
     handle_for_sigpipe();
 
     // 初始化套接字开始监听
-	int listen_fd = socket_bind_listen(conf.port);
+    int listen_fd = socket_bind_listen(conf.port);
 
     // 设置为socket非阻塞
-	int rc = make_socket_non_blocking(listen_fd);
+    int rc = make_socket_non_blocking(listen_fd);
 
     // 创建epoll并注册监听描述符
     int epoll_fd = tk_epoll_create(0);

@@ -12,10 +12,10 @@
 typedef int (*tk_pq_comparator_pt)(void *pi, void *pj);
 
 typedef struct priority_queue{
-	void **pq;
-	size_t nalloc;
-	size_t size;
-	tk_pq_comparator_pt comp;
+    void **pq;
+    size_t nalloc;
+    size_t size;
+    tk_pq_comparator_pt comp;
 }tk_pq_t;
 
 int tk_pq_init(tk_pq_t *tk_pq, tk_pq_comparator_pt comp, size_t size);

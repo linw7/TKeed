@@ -25,10 +25,10 @@ int sink(tk_pq_t *tk_pq, size_t k) {
     while ((k << 1) <= nalloc) {
         j = k << 1;
         if((j < nalloc) && (tk_pq->comp(tk_pq->pq[j+1], tk_pq->pq[j]))){
-        	j++;
+            j++;
         }
-        if(!tk_pq->comp(tk_pq->pq[j], tk_pq->pq[k])){ 
-        	break;
+        if(!tk_pq->comp(tk_pq->pq[j], tk_pq->pq[k])){
+            break;
         }
         exch(tk_pq, j, k);
         k = j;
@@ -53,7 +53,7 @@ int tk_pq_init(tk_pq_t *tk_pq, tk_pq_comparator_pt comp, size_t size) {
 }
 
 int tk_pq_is_empty(tk_pq_t *tk_pq){
-	// 通过nalloc值款快速判断是否为空
+    // 通过nalloc值款快速判断是否为空
     return (tk_pq->nalloc == 0) ? 1 : 0;
 }
 

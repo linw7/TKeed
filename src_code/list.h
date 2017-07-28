@@ -27,10 +27,10 @@ typedef struct list_head {
 })
 
 #define list_entry(ptr, type, member) \
-	container_of(ptr, type, member)
+    container_of(ptr, type, member)
 
 #define list_for_each(pos, head) \
-	for (pos = (head)->next; pos != (head); pos = pos->next)
+    for (pos = (head)->next; pos != (head); pos = pos->next)
 
 #define list_for_each_prev(pos, head) \
     for (pos = (head)->prev; pos != (head); pos = pos->prev)

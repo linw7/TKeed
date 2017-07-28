@@ -16,15 +16,15 @@ int timer_comp(void* ti, void* tj){
 }
 
 void tk_time_update(){
-	// 获取当前时间
-	struct timeval tv;
-	int rc = gettimeofday(&tv, NULL);
-	tk_current_msec = ((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
+    // 获取当前时间
+    struct timeval tv;
+    int rc = gettimeofday(&tv, NULL);
+    tk_current_msec = ((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
 }
 
 int tk_timer_init(){
     // 建立连接后立即初始化
-	// 初始优先队列大小TK_PQ_DEFAULT_SIZE = 10
+    // 初始优先队列大小TK_PQ_DEFAULT_SIZE = 10
     int rc = tk_pq_init(&tk_timer, timer_comp, TK_PQ_DEFAULT_SIZE);
     // 更新当前时间
     tk_time_update();
@@ -35,7 +35,7 @@ int tk_find_timer(){
     int time;
     // 返回队列中最早时间和当前时间之差
     while(!tk_pq_is_empty(&tk_timer)){
-    	// 更新当前时间
+        // 更新当前时间
         tk_time_update();
         // timer_node指向最小的时间
         tk_timer_t* timer_node = (tk_timer_t*)tk_pq_min(&tk_timer);
@@ -55,7 +55,7 @@ int tk_find_timer(){
 
 void tk_handle_expire_timers(){
     while (!tk_pq_is_empty(&tk_timer)){
-    	// 更新当前时间
+        // 更新当前时间
         tk_time_update();
         tk_timer_t* timer_node = (tk_timer_t*)tk_pq_min(&tk_timer);
         // 如果已删则释放此节点

@@ -36,36 +36,36 @@ mime_type_t tkeed_mime[] =
 };
 
 static void parse_uri(char *uri_start, int uri_length, char *filename, char *query){
-	uri_start[uri_length] = '\0';
-	// 找到'?'位置界定非参部分
-	char *delim_pos = strchr(uri_start, '?');
-	int filename_length = (delim_pos != NULL) ? ((int)(delim_pos - uri_start)) : uri_length;
-	strcpy(filename, ROOT);
-	// 将uri中属于'?'之前部分内容追加到filename
-	strncat(filename, uri_start, filename_length);
-	// 在请求中找到最后一个'/'位置界定文件位置
-	char *last_comp = strrchr(filename, '/');
-	// 在文件名中找到最后一个'.'界定文件类型
-	char *last_dot = strrchr(last_comp, '.');
-	// 请求文件时末尾加'/'
-	if((last_dot == NULL) && (filename[strlen(filename) - 1] != '/')){
-		strcat(filename, "/");
-	}
-	// 默认请求index.html
-	if(filename[strlen(filename) - 1] == '/'){
-		strcat(filename, "index.html");
-	}
-	return; 
+    uri_start[uri_length] = '\0';
+    // 找到'?'位置界定非参部分
+    char *delim_pos = strchr(uri_start, '?');
+    int filename_length = (delim_pos != NULL) ? ((int)(delim_pos - uri_start)) : uri_length;
+    strcpy(filename, ROOT);
+    // 将uri中属于'?'之前部分内容追加到filename
+    strncat(filename, uri_start, filename_length);
+    // 在请求中找到最后一个'/'位置界定文件位置
+    char *last_comp = strrchr(filename, '/');
+    // 在文件名中找到最后一个'.'界定文件类型
+    char *last_dot = strrchr(last_comp, '.');
+    // 请求文件时末尾加'/'
+    if((last_dot == NULL) && (filename[strlen(filename) - 1] != '/')){
+        strcat(filename, "/");
+    }
+    // 默认请求index.html
+    if(filename[strlen(filename) - 1] == '/'){
+        strcat(filename, "index.html");
+    }
+    return; 
 }
 
 const char* get_file_type(const char *type){
-	// 将type和索引表中后缀比较，返回类型用于填充Content-Type字段
-	for(int i = 0; tkeed_mime[i].type != NULL; ++i){
-		if(strcmp(type, tkeed_mime[i].type) == 0)
-			return tkeed_mime[i].value;
-	}
-	// 未识别返回"text/plain"
-	return "text/plain";
+    // 将type和索引表中后缀比较，返回类型用于填充Content-Type字段
+    for(int i = 0; tkeed_mime[i].type != NULL; ++i){
+        if(strcmp(type, tkeed_mime[i].type) == 0)
+            return tkeed_mime[i].value;
+    }
+    // 未识别返回"text/plain"
+    return "text/plain";
 }
 
 // 响应错误信息
@@ -74,10 +74,10 @@ void do_error(int fd, char *cause, char *err_num, char *short_msg, char *long_ms
     char header[MAXLINE];
     char body[MAXLINE];
 
-	// 用log_msg和cause字符串填充错误响应体
-	sprintf(body, "<html><title>TKeed Error<title>");
-	sprintf(body, "%s<body bgcolor=""ffffff"">\n", body);
-	sprintf(body, "%s%s : %s\n", body, err_num, short_msg);
+    // 用log_msg和cause字符串填充错误响应体
+    sprintf(body, "<html><title>TKeed Error<title>");
+    sprintf(body, "%s<body bgcolor=""ffffff"">\n", body);
+    sprintf(body, "%s%s : %s\n", body, err_num, short_msg);
     sprintf(body, "%s<p>%s : %s\n</p>", body, long_msg, cause);
     sprintf(body, "%s<hr><em>TKeed web server</em>\n</body></html>", body);
 
@@ -100,24 +100,24 @@ void do_error(int fd, char *cause, char *err_num, char *short_msg, char *long_ms
 void serve_static(int fd, char *filename, size_t filesize, tk_http_out_t *out){
     // 响应头缓冲（512字节）和数据缓冲（8192字节）
     char header[MAXLINE];
-	char buff[SHORTLINE];
+    char buff[SHORTLINE];
     struct tm tm;
-	
-	// 返回响应报文头，包含HTTP版本号状态码及状态码对应的短描述
-	sprintf(header, "HTTP/1.1 %d %s\r\n", out->status, get_shortmsg_from_status_code(out->status));
-	
-	// 返回响应头
-	// Connection，Keep-Alive，Content-type，Content-length，Last-Modified
-	if(out->keep_alive){
-		// 返回默认的持续连接模式及超时时间（默认500ms）
-		sprintf(header, "%sConnection: keep-alive\r\n", header);
-	 	sprintf(header, "%sKeep-Alive: timeout=%d\r\n", header, TIMEOUT_DEFAULT);
-	}
-	if(out->modified){
-		// 得到文件类型并填充Content-type字段
-		const char* filetype = get_file_type(strrchr(filename, '.'));
-    	sprintf(header, "%sContent-type: %s\r\n", header, filetype);
-    	// 通过Content-length返回文件大小
+    
+    // 返回响应报文头，包含HTTP版本号状态码及状态码对应的短描述
+    sprintf(header, "HTTP/1.1 %d %s\r\n", out->status, get_shortmsg_from_status_code(out->status));
+    
+    // 返回响应头
+    // Connection，Keep-Alive，Content-type，Content-length，Last-Modified
+    if(out->keep_alive){
+        // 返回默认的持续连接模式及超时时间（默认500ms）
+        sprintf(header, "%sConnection: keep-alive\r\n", header);
+        sprintf(header, "%sKeep-Alive: timeout=%d\r\n", header, TIMEOUT_DEFAULT);
+    }
+    if(out->modified){
+        // 得到文件类型并填充Content-type字段
+        const char* filetype = get_file_type(strrchr(filename, '.'));
+        sprintf(header, "%sContent-type: %s\r\n", header, filetype);
+        // 通过Content-length返回文件大小
         sprintf(header, "%sContent-length: %zu\r\n", header, filesize);
         // 得到最后修改时间并填充Last-Modified字段
         localtime_r(&(out->mtime), &tm);
@@ -132,8 +132,8 @@ void serve_static(int fd, char *filename, size_t filesize, tk_http_out_t *out){
     // 发送报文头部并校验完整性
     size_t send_len = (size_t)rio_writen(fd, header, strlen(header));
     if(send_len != strlen(header)){
-    	perror("Send header failed");
-    	return;
+        perror("Send header failed");
+        return;
     }
 
     // 打开并发送文件
@@ -144,8 +144,8 @@ void serve_static(int fd, char *filename, size_t filesize, tk_http_out_t *out){
     // 发送文件并校验完整性
     send_len = rio_writen(fd, src_addr, filesize);
     if(send_len != filesize){
-    	perror("Send file failed");
-    	return;
+        perror("Send file failed");
+        return;
     }
     munmap(src_addr, filesize);
 }

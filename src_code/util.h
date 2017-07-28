@@ -16,9 +16,9 @@
 #define MIN(a, b) ((a) < (b) ? (a) : (b))
 
 typedef struct tk_conf{
-	char root[PATHLEN];
-	int port;
-	int thread_num;
+    char root[PATHLEN];
+    int port;
+    int thread_num;
 }tk_conf_t;
 
 int read_conf(char* filename, tk_conf_t* conf);

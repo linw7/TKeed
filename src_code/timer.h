@@ -14,10 +14,10 @@
 typedef int (*timer_handler_pt)(tk_http_request_t* request);
 
 typedef struct tk_timer{
-	size_t key;    // 标记超时时间
-	int deleted;    // 标记是否被删除
-	timer_handler_pt handler;    // 超时处理，add时指定
-	tk_http_request_t* request;    // 指向对应的request请求
+    size_t key;    // 标记超时时间
+    int deleted;    // 标记是否被删除
+    timer_handler_pt handler;    // 超时处理，add时指定
+    tk_http_request_t* request;    // 指向对应的request请求
 } tk_timer_t;
 
 // tk_pq_t定义在"priority_queue.h"中，优先队列中节点

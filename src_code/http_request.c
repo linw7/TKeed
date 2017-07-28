@@ -23,7 +23,7 @@ static int tk_http_process_ignore(tk_http_request_t* request, tk_http_out_t* out
     (void) request;
     (void) out;
     (void) data;
-    (void) len;   
+    (void) len;
     return 0;
 }
 

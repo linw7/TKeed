@@ -32,30 +32,30 @@
 #define MAX_BUF 8124
 
 typedef struct tk_http_request{
-	char* root;
-	int fd;
-	int epoll_fd;
-	char buff[MAX_BUF];
-	size_t pos;
-	size_t last;
-	int state;
+    char* root;
+    int fd;
+    int epoll_fd;
+    char buff[MAX_BUF];
+    size_t pos;
+    size_t last;
+    int state;
 
-	void* request_start;
-	void* method_end;
-	int method;
-	void* uri_start;
-	void* uri_end;
-	void* path_start;
-	void* path_end;
-	void* query_start;
-	void* query_end;
-	int http_major;
-	int http_minor;
-	void* request_end;
+    void* request_start;
+    void* method_end;
+    int method;
+    void* uri_start;
+    void* uri_end;
+    void* path_start;
+    void* path_end;
+    void* query_start;
+    void* query_end;
+    int http_major;
+    int http_minor;
+    void* request_end;
 
-	struct list_head list;    // 存储请求头，list.h中定义了此结构
-	
-	void* cur_header_key_start;
+    struct list_head list;    // 存储请求头，list.h中定义了此结构
+
+    void* cur_header_key_start;
     void* cur_header_key_end;
     void* cur_header_value_start;
     void* cur_header_value_end;
@@ -63,26 +63,26 @@ typedef struct tk_http_request{
 }tk_http_request_t;
 
 typedef struct tk_http_out{
-	int fd;
-	int keep_alive;
-	time_t mtime;
-	int modified;
-	int status;
+    int fd;
+    int keep_alive;
+    time_t mtime;
+    int modified;
+    int status;
 }tk_http_out_t;
 
 typedef struct tk_http_header{
-	void* key_start;
-	void* key_end;
-	void* value_start;
-	void* value_end;
-	struct list_head list;
+    void* key_start;
+    void* key_end;
+    void* value_start;
+    void* value_end;
+    struct list_head list;
 }tk_http_header_t;
 
 typedef int (*tk_http_header_handler_pt)(tk_http_request_t* request, tk_http_out_t* out, char* data, int len);
 
 typedef struct tk_http_header_handle{
-	char* name;
-	tk_http_header_handler_pt handler;    // 函数指针
+    char* name;
+    tk_http_header_handler_pt handler;    // 函数指针
 }tk_http_header_handle_t;
 
 extern tk_http_header_handle_t tk_http_headers_in[];
