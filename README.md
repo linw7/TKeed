@@ -242,7 +242,7 @@ typedef struct tk_task{
 
 ### 调用树
 
-![调用树](https://github.com/linw7/TKeed/tree/master/datum/ClusterCall_full.jpg)
+![调用树](./datum/ClusterCall_full.jpg)
 
 ---
 
