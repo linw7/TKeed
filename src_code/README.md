@@ -242,6 +242,20 @@ typedef struct tk_task{
 
     - 工作线程：void* threadpool_worker(void* arg);
 
+### 特性
+
+- 使用状态机解析HTTP协议，非简单字符串匹配方式解析请求
+
+- 添加Timer定时器，定时回调tk_http_close_conn处理超时请求
+
+    - 高效的小根堆结构
+
+    - 惰性删除方式
+
+- 实现了HTTP持续连接传输数据
+
+- 线程池操作及其同步互斥管理
+
 
 ---
 

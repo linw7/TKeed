@@ -26,6 +26,7 @@ int tk_timer_init(){
     // 建立连接后立即初始化
     // 初始优先队列大小TK_PQ_DEFAULT_SIZE = 10
     int rc = tk_pq_init(&tk_timer, timer_comp, TK_PQ_DEFAULT_SIZE);
+
     // 更新当前时间
     tk_time_update();
     return 0;
@@ -54,23 +55,23 @@ int tk_find_timer(){
 }
 
 void tk_handle_expire_timers(){
-    while (!tk_pq_is_empty(&tk_timer)){
+    while(!tk_pq_is_empty(&tk_timer)){
         // 更新当前时间
         tk_time_update();
         tk_timer_t* timer_node = (tk_timer_t*)tk_pq_min(&tk_timer);
         // 如果已删则释放此节点
-        if (timer_node->deleted){
+        if(timer_node->deleted){
             int rc = tk_pq_delmin(&tk_timer); 
             free(timer_node);
             continue;
         }
         // 最早入队列节点超时时间大于当前时间（未超时）
         // 结束超时检查，顺带删了下标记为删除的节点
-        if (timer_node->key > tk_current_msec){
+        if(timer_node->key > tk_current_msec){
             return;
         }
         // 出现了没被删但是超时的情况，调用handler处理
-        if (timer_node->handler){
+        if(timer_node->handler){
             timer_node->handler(timer_node->request);
         }
         int rc = tk_pq_delmin(&tk_timer); 
