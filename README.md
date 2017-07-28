@@ -240,6 +240,10 @@ typedef struct tk_task{
 
 这里只罗列全局函数，模块内部调用的函数（static）这里不一一展示。
 
+### 调用树
+
+![调用树](https://github.com/linw7/TKeed/tree/master/datum/ClusterCall_full.jpg)
+
 ---
 
 ## 背景知识
