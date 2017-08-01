@@ -1,4 +1,6 @@
-# TKeed WebServer
+[![Build Status](https://travis-ci.org/linw7/TKeed.svg?branch=master)](https://travis-ci.org/linw7/TKeed)
+
+# TKeed WebServer 
 
 > A High Performance HTTP WebServer.
 
