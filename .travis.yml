@@ -1,5 +1,5 @@
 sudo: required
-dist: Trusty
+dist: precise
 script:
   - sudo add-apt-repository ppa:ubuntu-toolchain-r/test -y
   - sudo apt-get update -y
