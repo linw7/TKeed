@@ -24,6 +24,12 @@
 
 - 集成环境：[Clion](https://www.jetbrains.com/clion/)
 
+新增工具：
+
+- 自动化构建：[Travis CI](https://travis-ci.org/linw7/TKeed)
+
+- 压测工具：[WebBench](https://github.com/EZLippi/WebBench)
+
 ---
 
 ## 具体实现
