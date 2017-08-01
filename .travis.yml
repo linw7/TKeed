@@ -2,4 +2,3 @@ dist: precise
 language: c
 script:
   - cd ./src_code/ && make
-  - make clean
