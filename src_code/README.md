@@ -1,12 +1,20 @@
+
 # TKeed WebServer
 
-> A High Performance HTTP WebServer.
+[![Build Status](https://travis-ci.org/linw7/TKeed.svg?branch=master)](https://travis-ci.org/linw7/TKeed)
+[![license](https://img.shields.io/github/license/mashape/apistatus.svg)](https://opensource.org/licenses/MIT)
 
 ---
 
+## 时间轴
+
+~~于Linux环境下开发，前期开发使用Sublime，但无法完整调试，只能逐个模块编译测试是否有语法错误、链接错误。功能测试只有工具模块priority_queue和list可以单独用Mock数据跑通，util模块可提前和主模块链接并调试，其他模块需要或多或少有依赖关系。后期工程文件较多之后改用Clion开发 + 单步调试。~~
+
+- v1.0已经完成，本地已调试通过。提交到GitHub上的代码会由Travis自动构建。
+
 ## 开发环境
 
-于Linux环境下开发，前期开发使用Sublime，但无法完整调试，只能逐个模块编译测试是否有语法错误、链接错误。功能测试只有工具模块priority_queue和list可以单独用Mock数据跑通，util模块可提前和主模块链接并调试，其他模块需要或多或少有依赖关系。后期工程文件较多之后改用Clion开发 + 单步调试。
+开发工具：
 
 - 操作系统：Ubuntu 16.04
 
@@ -21,6 +29,12 @@
 - 代码结构：[Understand](https://scitools.com/) + [callgraph](http://blog.csdn.net/solstice/article/details/488865)
 
 - 集成环境：[Clion](https://www.jetbrains.com/clion/)
+
+新增工具：
+
+- 自动化构建：[Travis CI](https://travis-ci.org/linw7/TKeed)
+
+- 压测工具：[WebBench](https://github.com/EZLippi/WebBench)
 
 ---
 
@@ -265,7 +279,7 @@ typedef struct tk_task{
 
 **应用层**
 
-HTTP协议工作在应用层，端口号是80。HTTP协议被用于网络中两台计算机间的通信，相比于TCP/IP这些底层协议，HTTP协议更像是高层标记型语言，浏览器根据从服务器得到的HTTP响应体中分别得到报文头，响应头和信息体（HTML正文等），之后将HTML文件解析并呈现在浏览器上。同样，我们在浏览器地址栏输入网址之后，浏览器相当于用户代理帮助我们组织好报文头，请求头和信息体（可选），之后通过网络发送到服务器，，服务器根据请求的内容准备数据。所以如果想要完全弄明白HTTP协议，你需要写一个浏览器 + 一个Web服务器，一侧来生成请求信息，一侧生成响应信息。
+HTTP协议工作在应用层，端口号是80。HTTP协议被用于网络中两台计算机间的通信，相比于TCP/IP这些底层协议，HTTP协议更像是高层标记型语言，浏览器根据从服务器得到的HTTP响应体中分别得到报文头，响应头和信息体（HTML正文等），之后将HTML文件解析并呈现在浏览器上。同样，我们在浏览器地址栏输入网址之后，浏览器相当于用户代理帮助我们组织好报文头，请求头和信息体（可选），之后通过网络发送到服务器，服务器根据请求的内容准备数据。所以如果想要完全弄明白HTTP协议，你需要写一个浏览器 + 一个Web服务器，一侧来生成请求信息，一侧生成响应信息。
 
 从网络分层模型来看，HTTP工作在应用层，其在传输层由TCP协议为其提供服务。所以可以猜到，HTTP请求前，客户机和服务器之间一定已经通过三次握手建立起连接，其中套接字中服务器一侧的端口号为HTTP周知端口80。在请求和传输数据时也是有讲究的，通常一个页面上不只有文本数据，有时会内嵌很多图片，这时候有两种选择可以考虑。一种是对每一个文件都建立一个TCP连接，传送完数据后立马断开，通过多次这样的操作获取引用的所有数据，但是这样一个页面的打开需要建立多次连接，效率会低很多。另一种是对于有多个资源的页面，传送完一个数据后不立即断开连接，在同一次连接下多次传输数据直至传完，但这种情况有可能会长时间占用服务器资源，降低吞吐率。上述两种模式分别是HTTP 1.0和HTTP 1.1版本的默认方式，具体是什么含义会在后面详细解释。
 
@@ -408,6 +422,26 @@ HTTP协议工作在应用层，端口号是80。HTTP协议被用于网络中两�
     - POST方法下参数获取
 
         POST方法下，CGI可以直接从服务器标准输入获取数据，不过要先从CONTENT_LENGTH这个环境变量中得到POST参数长度，再获取对应长度内容。
+
+    **会话机制**
+
+    HTTP作为无状态协议，必然需要在某种方式保持连接状态。这里简要介绍一下Cookie和Session。
+
+    - Cookie
+
+        Cookie是客户端保持状态的方法。
+
+        Cookie简单的理解就是存储由服务器发至客户端并由客户端保存的一段字符串。为了保持会话，服务器可以在响应客户端请求时将Cookie字符串放在Set-Cookie下，客户机收到Cookie之后保存这段字符串，之后再请求时候带上Cookie就可以被识别。
+
+        除了上面提到的这些，Cookie在客户端的保存形式可以有两种，一种是会话Cookie一种是持久Cookie，会话Cookie就是将服务器返回的Cookie字符串保持在内存中，关闭浏览器之后自动销毁，持久Cookie则是存储在客户端磁盘上，其有效时间在服务器响应头中被指定，在有效期内，客户端再次请求服务器时都可以直接从本地取出。需要说明的是，存储在磁盘中的Cookie是可以被多个浏览器代理所共享的。
+
+    - Session
+
+        Session是服务器保持状态的方法。
+
+        首先需要明确的是，Session保存在服务器上，可以保存在数据库、文件或内存中，每个用户有独立的Session用户在客户端上记录用户的操作。我们可以理解为每个用户有一个独一无二的Session ID作为Session文件的Hash键，通过这个值可以锁定具体的Session结构的数据，这个Session结构中存储了用户操作行为。
+
+    当服务器需要识别客户端时就需要结合Cookie了。每次HTTP请求的时候，客户端都会发送相应的Cookie信息到服务端。实际上大多数的应用都是用Cookie来实现Session跟踪的，第一次创建Session的时候，服务端会在HTTP协议中告诉客户端，需要在Cookie里面记录一个Session ID，以后每次请求把这个会话ID发送到服务器，我就知道你是谁了。如果客户端的浏览器禁用了Cookie，会使用一种叫做URL重写的技术来进行会话跟踪，即每次HTTP交互，URL后面都会被附加上一个诸如sid=xxxxx这样的参数，服务端据此来识别用户，这样就可以帮用户完成诸如用户名等信息自动填入的操作了。
 
 **传输层**
 
@@ -555,9 +589,7 @@ HTTP协议工作在应用层，端口号是80。HTTP协议被用于网络中两�
 
     - 相关接口：
 
-        int select (int maxfd, fd_set *readfds, fd_set *writefds, fd_set *errorfds, struct 
-        
-        timeval *timeout);
+        int select (int maxfd, fd_set *readfds, fd_set *writefds, fd_set *errorfds, struct timeval *timeout);
         
         FD_ZERO(int fd, fd_set* fds)    //清空集合
         
@@ -703,5 +735,3 @@ HTTP协议工作在应用层，端口号是80。HTTP协议被用于网络中两�
     最后，在开发过程中使用到的都是最基本、最常用的开发工具，开发、调试、版本控制都有所涉及，可以更好地利用辅助工具完成开发任务。
 
 ---
-
-[![license](https://img.shields.io/github/license/mashape/apistatus.svg)](https://opensource.org/licenses/MIT)
