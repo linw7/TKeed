@@ -40,7 +40,7 @@ void *threadpool_worker(void *arg){
         pthread_mutex_lock(&(pool->lock));
 
         // 没有task且未停机则阻塞
-        while((pool->queue_size == 0) && (pool->shutdown))
+        while((pool->queue_size == 0) && !(pool->shutdown))
             pthread_cond_wait(&(pool->cond), &(pool->lock));
         
         // 立即停机模式、平滑停机且没有未完成任务则退出
