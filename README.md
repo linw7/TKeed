@@ -6,21 +6,52 @@
 
 ---
 
+## 索引
+
+| 核心结构 | 遇到的困难 | 测试及改进 | 
+|:----:| :----:| :----: |
+|[核心结构](https://github.com/linw7/TKeed/blob/master/%E6%9E%B6%E6%9E%84%E5%88%86%E6%9E%90.md)| [遇到的困难](https://github.com/linw7/TKeed/blob/master/TKeed%E5%90%AF%E7%A4%BA%E5%BD%95.md) | [测试及改进]()|
+
+
 ## 时间轴
 
-~~于Linux环境下开发，前期开发使用Sublime，但无法完整调试，只能逐个模块编译测试是否有语法错误、链接错误。功能测试只有工具模块priority_queue和list可以单独用Mock数据跑通，util模块可提前和主模块链接并调试，其他模块需要或多或少有依赖关系。后期工程文件较多之后改用Clion开发 + 单步调试。~~
+**Now**
 
 - v1.0已经完成，本地已调试通过。提交到GitHub上的代码会由Travis自动构建。
 
+    特性：
+
+    - 添加Timer定时器，定时回调handler处理超时请求
+
+        - 高效的小根堆结构
+
+        - 惰性删除方式
+
+    - 实现了HTTP长连接传输数据
+
+        - 非阻塞I/O
+
+        - epoll边缘触发模式（ET）
+
+    - 线程池操作及其同步互斥管理
+
+        - 调度选项
+
+            - 队列式FIFO调度模式
+
+            - 加入优先级的优先队列 (+)
+
+    - 使用状态机解析HTTP协议，非简单字符串匹配方式解析请求
+
 **Feature**
 
-- v1.1实现Json解释器解析配置
+- v2.0实现Json解释器解析配置
 
-- v2.0实现FastCGI（功能扩展）
+- v3.0实现FastCGI（功能扩展）
 
-- v3.0实现服务器缓存（性能加速）
+- v4.0实现服务器缓存（性能加速）
 
-- v4.0实现反向代理（安全性及负载均衡）
+- v5.0实现反向代理（安全性及负载均衡）
 
 ## 开发环境
 
@@ -280,7 +311,7 @@ typedef struct threadpool{
 	int thread_count;     // 线程数
 	int queue_size;    // 任务队列长
 	int shutdown;    // 关机方式
-	int started;
+	int started;    // 可用线程数
 }tk_threadpool_t;
 ```
 
@@ -309,10 +340,6 @@ typedef struct threadpool{
 - 任务队列大小queue_size
 
     用于标识当前未处理的任务数，设置其目的是为了快速判断是否任务队列已经为空。（也可以判断通过"head->next == NULL"来判断，但不够直观）
-
-- 关机方式shutdown
-
-    有立即关机（immediate_shutdown）和平滑关机（graceful_shutdown）两种模式。
 
 #### 任务结构定义
 
@@ -507,21 +534,6 @@ typedef struct tk_timer{
 - 返回响应体
 
     - 若为长连接，此时只返回了第一个文件。不关闭连接，循环传输数据，直至完成所有数据传输。
-
-### 特性
-
-- 使用状态机解析HTTP协议，非简单字符串匹配方式解析请求
-
-- 添加Timer定时器，定时回调tk_http_close_conn处理超时请求
-
-    - 高效的小根堆结构
-
-    - 惰性删除方式
-
-- 实现了HTTP持续连接传输数据
-
-- 线程池操作及其同步互斥管理
-
 
 ---
 
