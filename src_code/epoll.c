@@ -75,7 +75,7 @@ void tk_handle_events(int epoll_fd, int listen_fd, struct epoll_event* events,
 
             // 将请求任务加入到线程池中
             int rc = threadpool_add(tp, do_request, events[i].data.ptr);
-            do_request(events[i].data.ptr);
+            // do_request(events[i].data.ptr);
         }
     }
 }

@@ -43,7 +43,7 @@ int main(int argc, char *argv[]){
         int time = tk_find_timer();
 
         // 调用epoll_wait函数，返回接收到事件的数量
-        int events_num = tk_epoll_wait(epoll_fd, events, MAXEVENTS, time);
+        int events_num = tk_epoll_wait(epoll_fd, events, MAXEVENTS, -1);
 
         // 处理已经超时的请求
         tk_handle_expire_timers();
