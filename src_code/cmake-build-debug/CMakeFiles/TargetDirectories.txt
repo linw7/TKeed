@@ -1,3 +1,0 @@
-C:/Users/TeeKee/Desktop/WorkSpace/TKeed/src_code/cmake-build-debug/CMakeFiles/src_code.dir
-C:/Users/TeeKee/Desktop/WorkSpace/TKeed/src_code/cmake-build-debug/CMakeFiles/edit_cache.dir
-C:/Users/TeeKee/Desktop/WorkSpace/TKeed/src_code/cmake-build-debug/CMakeFiles/rebuild_cache.dir
