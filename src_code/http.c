@@ -179,23 +179,28 @@ void do_request(void* ptr){
     tk_del_timer(request);
 
     while(1){
+        // plast指向缓冲区buf当前可写入的第一个字节位置，这里取余是为了实现循环缓冲
         plast = &request->buff[request->last % MAX_BUF];
+
+        // remain_size表示缓冲区当前剩余可写入字节数
         remain_size = MIN(MAX_BUF - (request->last - request->pos) - 1, MAX_BUF - request->last % MAX_BUF);
+
+        // 从连接描述符fd读取数据并复制到用户缓冲区plast指向的开始位置
         n_read = read(fd, plast, remain_size);
 
         // 已读到文件尾或无可读数据，断开连接
         if(n_read == 0)
             goto err;
 
-        // 发生read错误
-        if(n_read < 0){
-            // read产生非EAGAIN错误则直接关闭连接
-            // EAGAIN错误（non-blocking下）时结束循环稍候再试
-            if(errno != TK_AGAIN)
-                goto err;
-            else
-                break;
-        }
+        // 非EAGAIN错误，断开连接
+        if(n_read < 0 && (errno != TK_AGAIN))
+            goto err;
+
+        // Non-blocking下errno返回EAGAIN则重置定时器（进入此循环表示连接被激活），重新注册，在不断开TCP连接情况下重新等待下一次用户请求
+        if((n_read < 0) && (errno == TK_AGAIN))
+            break;
+
+        // 更新读到的总字节数
         request->last += n_read;
 
         // 解析请求报文行
@@ -203,7 +208,6 @@ void do_request(void* ptr){
         if(rc == TK_AGAIN)
             continue;
         else if(rc != 0)
-            // 解析请求行发生错误，关闭连接
             goto err;
 
         // 解析请求报文体
@@ -211,7 +215,6 @@ void do_request(void* ptr){
         if(rc == TK_AGAIN)
             continue;
         else if(rc != 0)
-            // 解析请求行发生错误，关闭连接
             goto err;
 
         // 分配并初始化返回数据结构
@@ -236,12 +239,13 @@ void do_request(void* ptr){
         // 释放返回数据结构
         free(out);
 
-        // 处理HTTP长连接，控制TCP连接不断开
+        // 处理HTTP长连接，控制TCP是否断开连接
         if (!out->keep_alive)
             goto close;
     }
+    // 一次请求响应结束后不直接断开TCP连接，而是重置状态
     // 修改已经注册描述符的事件类型
-    // 文件描述符可以读，边缘触发(Edge Triggered)模式，保证一个socket连接在任一时刻只被一个线程处理
+    // 重置定时器，每等待下一次请求均生效
     tk_epoll_mod(request->epoll_fd, request->fd, request, (EPOLLIN | EPOLLET | EPOLLONESHOT));
     tk_add_timer(request, TIMEOUT_DEFAULT, tk_http_close_conn);
     return;
