@@ -248,6 +248,8 @@ void do_request(void* ptr){
     // 重置定时器，每等待下一次请求均生效
     tk_epoll_mod(request->epoll_fd, request->fd, request, (EPOLLIN | EPOLLET | EPOLLONESHOT));
     tk_add_timer(request, TIMEOUT_DEFAULT, tk_http_close_conn);
+
+    // 每完成一次请求数据的响应都会return以移交出worker线程使用权，并在未断开TCP连接情况下通过epoll监听下一次请求
     return;
 
     err:
